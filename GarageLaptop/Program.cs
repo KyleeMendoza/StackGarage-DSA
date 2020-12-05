@@ -122,9 +122,6 @@ namespace GarageLaptop
                         Console.WriteLine($"--{CarList[i]}--");
                         Console.WriteLine($"Arrival: {CarRecord[i, 0]} Departure: {CarRecord[i, 1]}"); //format ng arrival/departure
                     }
-
-                    //DITO NA AKO ADD UNG ENTRIES AND EXIT
-                    Console.WriteLine($"Sum of all Car entries: {}\nSum of all Car exits: {}");
                 }
                 else
                 {
