@@ -7,9 +7,9 @@ namespace GarageLaptop
     {
         static void Main(string[] args)
         {
-            //PARA MADALI MATEST PALITAN MO MUNA NG CAR BRANDS UNG PLATE # AT GAWIN MO MUNANG LIMA HEHE
+            string[] CarList = { "a", "b", "c", "d", "e", "f", "g", "h", "i", "j" }; 
+            //string[] CarList = { "aaa 000", "bbb 111", "ccc 222", "ddd 333", "eee 444", "fff 555", "ggg 666", "hhh 777", "iii 888", "jjj 999" }; //List ng cars
 
-            string[] CarList = { "aaa 000", "bbb 111", "ccc 222", "ddd 333", "eee 444", "fff 555", "ggg 666", "hhh 777", "iii 888", "jjj 999" }; //List ng cars
             List<string> Garage = new List<string>(); //List ng slots sa garage
             List<string> History = new List<string>(); //List ng garage history
             //Ito yung // two dimentinal int array {arrival, departure} na nakabase sa positioning ng CarList.
@@ -18,6 +18,7 @@ namespace GarageLaptop
             bool keepGoing = true;
             while (keepGoing)
             {
+                Console.WriteLine("------ MattKyleRichard Car Collection ------");
                 Console.WriteLine("1.Arrival\n2.Departure\n3.Check Garage\n4.Garage History\n5.Vehicle History");
                 Console.WriteLine($"Garage Available Space: {10 - Garage.Count}");
                 Console.WriteLine("\nChoice: ");
@@ -100,9 +101,9 @@ namespace GarageLaptop
                         Console.WriteLine($"Slot{slot}: {car}");
                         slot++;
                     }
-                    if (slot != 5)
+                    if (slot != 10)
                     {
-                        for (int i = slot; i < 6; i++)
+                        for (int i = slot; i < 11; i++)
                         {
                             Console.WriteLine($"Slot{i}: ");
                         }
