@@ -20,76 +20,73 @@ namespace GarageLaptop
             {
                 Console.WriteLine("------ MattKyleRichard Car Collection ------");
                 Console.WriteLine("1.Arrival\n2.Departure\n3.Check Garage\n4.Garage History\n5.Vehicle History");
+                Console.Write("List of Registered Cars: ");
+                Console.WriteLine(String.Join(", ", CarList));
                 Console.WriteLine($"Garage Available Space: {10 - Garage.Count}");
                 Console.WriteLine("\nChoice: ");
                 int choice = Convert.ToInt32(Console.ReadLine());
 
                 if (choice == 1) //ARRIVAL
                 {
-                    int checker = 0; //Checker kung nageexist ung car sa carlist
                     Console.WriteLine("\nEnter Model: ");
                     string model = Console.ReadLine();
-                    for (int i = 0; i < CarList.Length; i++)
+                    int carIndex = Array.FindIndex(CarList, w => w.Contains(model)); //Index ng Car sa Carlist
+                    bool checker = Array.Exists(CarList, element => element == model); //checker kung nageexist ung car sa Carlist
+                    if (checker)
                     {
-                        if (model == CarList[i])
+                        bool alreadyExist = Garage.Contains(model); //checker kung nagexxist na ba ung car sa garage
+                        if (alreadyExist)
                         {
-                            Garage.Add(CarList[i]);
-                            History.Add($"{CarList[i]} has arrived.");
-                            CarRecord[i, 0]++; // arrival
-                            checker++;
+                            Console.WriteLine("Car already exist in garage! ");
+                            //checker++;
                         }
-                    }
-                    if (checker == 0)
-                    {
-                        Console.WriteLine("Invalid Model");
+                        else
+                        {
+                            Garage.Add(model);
+                            History.Add($"{model} has arrived.");
+                            CarRecord[carIndex, 0]++; // arrival
+                            //checker++;
+                        }
                     }
                 }
                 else if (choice == 2) //DEPARTURE
                 {
-                    int checker = 0; //Checker kung nageexist ung car sa carlist
                     Console.WriteLine("\nEnter Model: ");
                     string model = Console.ReadLine();
-                    for (int i = 0; i < Garage.Count; i++)
+                    bool checker = Array.Exists(CarList, element => element == model); //checker kung nageexist ung car sa Carlist
+                    int carIndex = Garage.IndexOf(model); //Index ng Car sa garage
+                    if (checker)
                     {
-                        if (model == Garage[i])//check if the vehicle is in the garage
+                        if (carIndex+1 == Garage.Count) //Checker kung blocked ba yung daan o hindi
                         {
-                            if ((i+1) == Garage.Count)//Checker kung blocked ba yung daan o hindi
+                            History.Add($"{model} has left.");
+                            Garage.RemoveAll(x => ((string)x) == model); //lambda expression pwede ding Garage.RemoveAt(-index-)
+                            Console.WriteLine(model + " has departed from the garage...");
+                            int keyIndex = Array.FindIndex(CarList, w => w.Contains(model));
+                            CarRecord[keyIndex, 1]++; // departure
+                        }
+                        else
+                        {
+                            Garage.RemoveAll(x => ((string)x) == model);
+                            Console.WriteLine(model + " has departed from the garage...");
+                            int keyIndex = Array.FindIndex(CarList, w => w.Contains(model));
+                            CarRecord[keyIndex, 1]++; // departure
+
+                            for (int j = Garage.Count - 1; j >= carIndex; j--) //for loop na aalis ung nasa harap
                             {
-                                History.Add($"{model} has left.");
-                                Garage.RemoveAll(x => ((string)x) == model); //lambda expression pwede ding Garage.RemoveAt(-index-)
-                                Console.WriteLine(model + " has departed from the garage...");
-                                checker++;
-                                int keyIndex = Array.FindIndex(CarList, w => w.Contains(model));
-                                CarRecord[keyIndex, 1]++; // departure
+                                History.Add($"{Garage[j]} has left.");
+                                int departIndex = Array.FindIndex(CarList, w => w.Contains(Garage[j]));
+                                CarRecord[departIndex, 1]++; // departure
                             }
-                            else
+
+                            History.Add($"{model} has left.");
+                            for (int k = carIndex; k < Garage.Count; k++) //for loop na unang babalik ung huling lumabas
                             {
-                                Garage.RemoveAll(x => ((string)x) == model); 
-                                Console.WriteLine(model + " has departed from the garage...");
-                                int keyIndex = Array.FindIndex(CarList, w => w.Contains(model)); //form para mahanap yung index nung model sa Carlist
-                                CarRecord[keyIndex, 1]++; // departure
-
-                                for (int j = Garage.Count - 1; j >= i; j--) //for loop na aalis ung nasa harap
-                                {
-                                    History.Add($"{Garage[j]} has left.");
-                                    int departIndex = Array.FindIndex(CarList, w => w.Contains(Garage[j]));
-                                    CarRecord[departIndex, 1]++; // departure
-                                }
-
-                                History.Add($"{model} has left.");
-                                for (int k = i; k < Garage.Count; k++) //for loop na unang babalik ung huling lumabas
-                                {
-                                    History.Add($"{Garage[k]} has arrived.");
-                                    int arriveIndex = Array.FindIndex(CarList, w => w.Contains(Garage[k]));
-                                    CarRecord[arriveIndex, 0]++; // arrival
-                                }
-                                checker++;
+                                History.Add($"{Garage[k]} has arrived.");
+                                int arriveIndex = Array.FindIndex(CarList, w => w.Contains(Garage[k]));
+                                CarRecord[arriveIndex, 0]++; // arrival
                             }
                         }
-                    }
-                    if (checker == 0)
-                    {
-                        Console.WriteLine("Vehicle not found!");
                     }
                 }
                 else if (choice == 3)//GARAGE CHECK
