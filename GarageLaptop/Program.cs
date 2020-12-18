@@ -7,8 +7,7 @@ namespace GarageLaptop
     {
         static void Main(string[] args)
         {
-            string[] CarList = { "a", "b", "c", "d", "e", "f", "g", "h", "i", "j" }; 
-            //string[] CarList = { "aaa 000", "bbb 111", "ccc 222", "ddd 333", "eee 444", "fff 555", "ggg 666", "hhh 777", "iii 888", "jjj 999" }; //List ng cars
+            string[] CarList = { "car1", "car2", "car3", "car4", "car5", "car6", "car7", "car8", "car9", "car10" }; //list ng cars
 
             List<string> Garage = new List<string>(); //List ng slots sa garage
             List<string> History = new List<string>(); //List ng garage history
@@ -19,10 +18,10 @@ namespace GarageLaptop
             while (keepGoing)
             {
                 Console.WriteLine("------ MattKyleRichard Car Collection ------");
-                Console.WriteLine("1.Arrival\n2.Departure\n3.Check Garage\n4.Garage History\n5.Vehicle History");
                 Console.Write("List of Registered Cars: ");
                 Console.WriteLine(String.Join(", ", CarList));
                 Console.WriteLine($"Garage Available Space: {10 - Garage.Count}");
+                Console.WriteLine("\n1.Arrival\n2.Departure\n3.Check Garage\n4.Garage History\n5.Vehicle History");
                 Console.WriteLine("\nChoice: ");
                 int choice = Convert.ToInt32(Console.ReadLine());
 
@@ -48,14 +47,19 @@ namespace GarageLaptop
                             //checker++;
                         }
                     }
+                    else
+                    {
+                        Console.WriteLine("CAR IS NOT FOUND !");
+                    }
                 }
                 else if (choice == 2) //DEPARTURE
                 {
                     Console.WriteLine("\nEnter Model: ");
                     string model = Console.ReadLine();
                     bool checker = Array.Exists(CarList, element => element == model); //checker kung nageexist ung car sa Carlist
+                    bool alreadyExist = Garage.Contains(model); //checker kung nagexxist na ba ung car sa garage
                     int carIndex = Garage.IndexOf(model); //Index ng Car sa garage
-                    if (checker)
+                    if (checker & alreadyExist)
                     {
                         if (carIndex+1 == Garage.Count) //Checker kung blocked ba yung daan o hindi
                         {
@@ -87,6 +91,10 @@ namespace GarageLaptop
                                 CarRecord[arriveIndex, 0]++; // arrival
                             }
                         }
+                    }
+                    else
+                    {
+                        Console.WriteLine("CAR IS NOT FOUND !");
                     }
                 }
                 else if (choice == 3)//GARAGE CHECK
